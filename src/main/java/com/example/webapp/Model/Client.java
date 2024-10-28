@@ -8,14 +8,17 @@ public class Client {
     private String lastName;
     private Date birthDate;
     private String permitNumber;
+    private Boolean isValid;
 
-    public Client(int id, String firstName, String lastName, Date birthDate, String permitNumber ) {
+    public Client(int id, String firstName, String lastName, Date birthDate, String permitNumber, Boolean isValid) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.permitNumber = permitNumber;
+        this.isValid = isValid;
     }
+
 
     public int getId() {
         return id;
@@ -55,6 +58,14 @@ public class Client {
 
     public void setPermitNumber(String permitNumber) {
         this.permitNumber = permitNumber;
+    }
+
+    public Boolean getValid() {
+        return isValid;
+    }
+
+    public void setValid(Boolean valid) {
+        isValid = valid;
     }
 
     @Override

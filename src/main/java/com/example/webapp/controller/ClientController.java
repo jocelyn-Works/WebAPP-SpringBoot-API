@@ -3,11 +3,10 @@ package com.example.webapp.controller;
 
 import com.example.webapp.Dao.ClientDao;
 import com.example.webapp.Model.Client;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api") // route /api par default pour chaque route
@@ -45,11 +44,24 @@ public class ClientController {
      * Ajouter un client
      *
      * @param client
+     * @return
      */
     @PostMapping(value = "/clients")
-    public void addClient(@RequestBody Client client) {
+    public Client addClient(@RequestBody Client client) {
 
-        clientDao.save(client);
+        RestTemplate restTemplate = new RestTemplate();
+        String permitNumber = client.getPermitNumber();
+
+        String api = "http://127.0.0.1:8081/licenses/" + permitNumber;
+        Boolean valid = restTemplate.getForObject(api, Boolean.class);
+
+        if (Boolean.TRUE.equals(valid)) {
+            client.setValid(true);
+            clientDao.save(client);
+
+        }
+
+        return client;
     }
 
 
@@ -73,7 +85,6 @@ public class ClientController {
 
         return updatedClient;
     }
-
 
 
     /**
