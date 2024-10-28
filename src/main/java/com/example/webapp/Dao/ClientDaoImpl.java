@@ -4,6 +4,7 @@ import com.example.webapp.Model.Client;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 @Repository
@@ -12,16 +13,18 @@ public class ClientDaoImpl implements ClientDao {
     public static List<Client> clients = new ArrayList<>();
 
     static {
-        clients.add(new Client(1, "John", "Doe", "johnDoe@gmail.com", "0612457896", "123 rue du Parc", "France"));
-        clients.add(new Client(2, "Jane", "Smith", "janeSmith@gmail.com", "0712345678", "456 rue de l'Église", "France"));
-        clients.add(new Client(3, "Pierre", "Dupont", "pierre.dupont@example.com", "0687654321", "789 avenue de la République", "France"));
-        clients.add(new Client(4, "Laura", "Martin", "laura.martin@example.com", "0645987321", "12 rue des Fleurs", "France"));
-        clients.add(new Client(5, "Lucas", "Bernard", "lucas.bernard@example.com", "0654321987", "3 rue de la Liberté", "France"));
-        clients.add(new Client(6, "Marie", "Legrand", "marie.legrand@example.com", "0621348765", "10 boulevard de la Paix", "France"));
-        clients.add(new Client(7, "Paul", "Durand", "paul.durand@example.com", "0632547812", "98 rue des Lilas", "France"));
-        clients.add(new Client(8, "Emma", "Moreau", "emma.moreau@example.com", "0698765432", "14 rue de la Gare", "France"));
-        clients.add(new Client(9, "Nathalie", "Lopez", "nathalie.lopez@example.com", "0612348976", "7 avenue du Stade", "France"));
-        clients.add(new Client(10, "Hugo", "Giraud", "hugo.giraud@example.com", "0687651234", "65 rue Victor Hugo", "France"));
+        clients.add(new Client(1, "John", "Doe", new Date(95, 2, 20), "ABC123456"));
+        clients.add(new Client(2, "Jane", "Smith", new Date(87, 5, 15), "DEF789012"));
+        clients.add(new Client(3, "Alice", "Johnson", new Date(90, 8, 10), "GHI345678"));
+        clients.add(new Client(4, "Bob", "Brown", new Date(85, 11, 25), "JKL901234"));
+        clients.add(new Client(5, "Charlie", "Davis", new Date(92, 1, 5), "MNO567890"));
+
+        clients.add(new Client(6, "David", "Wilson", new Date(88, 3, 22), "PQR123456"));
+        clients.add(new Client(7, "Eve", "Taylor", new Date(91, 7, 14), "STU789012"));
+        clients.add(new Client(8, "Frank", "Anderson", new Date(94, 10, 9), "VWX345678"));
+        clients.add(new Client(9, "Grace", "Thomas", new Date(89, 1, 30), "YZA901234"));
+        clients.add(new Client(10, "Hank", "Jackson", new Date(93, 5, 19), "BCD567890"));
+
     }
 
 
@@ -46,8 +49,10 @@ public class ClientDaoImpl implements ClientDao {
         return client;
     }
 
+
     @Override
     public Client delete(Client client) {
-        return null;
+        clients.remove(client);
+        return client;
     }
 }

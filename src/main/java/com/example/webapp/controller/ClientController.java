@@ -3,7 +3,11 @@ package com.example.webapp.controller;
 
 import com.example.webapp.Dao.ClientDao;
 import com.example.webapp.Model.Client;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api") // route /api par default pour chaque route
@@ -17,16 +21,18 @@ public class ClientController {
 
 
     /**
-     *  Retourne tous les clients
+     * Retourne tous les clients
+     *
      * @return
      */
     @GetMapping(value = "/clients")
-    public String clients() {
-        return clientDao.findAll().toString();
+    public List<Client> clients() {
+        return clientDao.findAll();
     }
 
     /**
      * Retourne un client par son ID
+     *
      * @param id
      * @return
      */
@@ -36,32 +42,49 @@ public class ClientController {
     }
 
     /**
-     *  Ajouter un client
+     * Ajouter un client
+     *
      * @param client
      */
     @PostMapping(value = "/clients")
     public void addClient(@RequestBody Client client) {
+
         clientDao.save(client);
     }
 
+
     /**
-     *  Modifier un client par son ID
+     * Modifier un client par son ID
+     *
      * @param client
      * @param id
+     * @return
      */
     @PutMapping(value = "/clients/{id}")
-    public void updateClient(@RequestBody Client client, @PathVariable int id) {
-        client.setId(id);
-        clientDao.save(client);
+    public Client updateClient(@RequestBody Client client, @PathVariable int id) {
+
+        Client updatedClient = clientDao.findById(id);
+        client.setId(updatedClient.getId());
+
+        updatedClient.setFirstName(client.getFirstName());
+        updatedClient.setLastName(client.getLastName());
+        updatedClient.setBirthDate(client.getBirthDate());
+        updatedClient.setPermitNumber(client.getPermitNumber());
+
+        return updatedClient;
     }
 
+
+
     /**
-     *  Suprime un client par son ID
+     * Suprime un client par son ID
+     *
      * @param id
      */
     @DeleteMapping(value = "/clients/{id}")
     public void deleteClient(@PathVariable int id) {
         clientDao.delete(clientDao.findById(id));
+
     }
 
 }

@@ -1,26 +1,21 @@
 package com.example.webapp.Model;
 
+import java.sql.Date;
+
 public class Client {
     private int id;
     private String firstName;
     private String lastName;
-    private String email;
-    private String phone;
-    private String address;
-    private String city;
+    private Date birthDate;
+    private String permitNumber;
 
-    public Client(int id, String firstName, String lastName, String email, String phone, String address, String city) {
+    public Client(int id, String firstName, String lastName, Date birthDate, String permitNumber ) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.city = city;
+        this.birthDate = birthDate;
+        this.permitNumber = permitNumber;
     }
-
-
-
 
     public int getId() {
         return id;
@@ -46,36 +41,20 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPermitNumber() {
+        return permitNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public void setPermitNumber(String permitNumber) {
+        this.permitNumber = permitNumber;
     }
 
     @Override
@@ -84,10 +63,8 @@ public class Client {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
+                ", birthDate=" + birthDate +
+                ", permitNumber='" + permitNumber + '\'' +
                 '}';
     }
 }
