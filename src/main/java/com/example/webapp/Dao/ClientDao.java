@@ -1,17 +1,17 @@
 package com.example.webapp.Dao;
 
-import com.example.webapp.Model.Client;
+import com.example.webapp.Model.User;
 
 import java.util.List;
 
 public interface ClientDao {
-    List<Client> findAll();
+    List<User> findAll();
 
-    Client findById(int id);
+    User findById(int id);
 
-    Client save(Client client);
+    User save(User user);
 
-    Client delete(Client client);
+    User delete(User user);
 
 
 }
