@@ -47,7 +47,7 @@ public class UserController {
      * @return
      */
     @PostMapping(value = "/clients")
-    public String addClient(@RequestBody User user) {
+    public Optional<User> addClient(@RequestBody User user) {
 
         User n = new User();
         n.setId(user.getId());
@@ -65,10 +65,9 @@ public class UserController {
         if (Boolean.TRUE.equals(valid)) {
             user.setIsValid(true);
             userRepository.save(user);
-
         }
 
-        return "saved " + user;
+        return userRepository.findById(user.getId());
     }
 
 
@@ -82,7 +81,8 @@ public class UserController {
     @PutMapping(value = "/clients/{id}")
     public Optional<User> updateClient(@RequestBody User user, @PathVariable int id) {
 
-        Optional<User> updatedUser = userRepository.findById(id);
+        userRepository.findById(id);
+
         user.setId(user.getId());
 
         user.setFirstName(user.getFirstName());
@@ -90,7 +90,19 @@ public class UserController {
         user.setBirthDate(user.getBirthDate());
         user.setPermitNumber(user.getPermitNumber());
 
-        return updatedUser;
+        RestTemplate restTemplate = new RestTemplate();
+        String api = "http://127.0.0.1:8081/licenses/" + id;
+        Boolean valid = restTemplate.getForObject(api, Boolean.class);
+        if (Boolean.TRUE.equals(valid)) {
+            user.setIsValid(true);
+        }else {
+            user.setIsValid(false);
+        }
+
+        userRepository.save(user);
+
+
+        return Optional.of(user);
     }
 
 

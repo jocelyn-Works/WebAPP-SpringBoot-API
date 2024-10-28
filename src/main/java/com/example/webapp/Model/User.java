@@ -1,6 +1,7 @@
 package com.example.webapp.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,28 +20,27 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    @NotNull
-    private String firstName;
-    @NotNull
-    private String lastName;
-    @NotNull
 
-    private Date birthDate;
     @NotNull
+    @NotBlank(message = "First Name is Required")
+    private String firstName;
+
+    @NotNull
+    @NotBlank(message = "Last Name is Required")
+    private String lastName;
+
+    @NotNull
+    @NotBlank(message = "Birth Date is Required")
+    private Date birthDate;
+
+    @NotNull
+    @NotBlank(message = "Permit Number is Required")
     private String permitNumber;
+
     @NotNull
     private Boolean isValid;
 
 
 
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                ", permitNumber='" + permitNumber + '\'' +
-                '}';
-    }
+
 }
