@@ -19,6 +19,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+
     /**
      * Retourne tous les clients
      *
@@ -28,6 +29,7 @@ public class UserController {
     public List<User> clients() {
         return (List<User>) userRepository.findAll();
     }
+
 
     /**
      * Retourne un client par son ID
@@ -40,6 +42,7 @@ public class UserController {
         return userRepository.findById(id);
     }
 
+
     /**
      * Ajouter un client
      *
@@ -49,25 +52,16 @@ public class UserController {
     @PostMapping(value = "/clients")
     public Optional<User> addClient(@RequestBody User user) {
 
-        User n = new User();
-        n.setId(user.getId());
-        n.setFirstName(user.getFirstName());
-        n.setLastName(user.getLastName());
-        n.setBirthDate(user.getBirthDate());
-        n.setPermitNumber(user.getPermitNumber());
+        User client = new User();
+        client.setId(user.getId());
+        client.setFirstName(user.getFirstName());
+        client.setLastName(user.getLastName());
+        client.setBirthDate(user.getBirthDate());
+        client.setPermitNumber(user.getPermitNumber());
 
-        RestTemplate restTemplate = new RestTemplate();
-        String permitNumber = user.getPermitNumber();
+        permitAPI(client);
 
-        String api = "http://127.0.0.1:8081/licenses/" + permitNumber;
-        Boolean valid = restTemplate.getForObject(api, Boolean.class);
-
-        if (Boolean.TRUE.equals(valid)) {
-            user.setIsValid(true);
-            userRepository.save(user);
-        }
-
-        return userRepository.findById(user.getId());
+        return userRepository.findById(client.getId());
     }
 
 
@@ -90,20 +84,13 @@ public class UserController {
         user.setBirthDate(user.getBirthDate());
         user.setPermitNumber(user.getPermitNumber());
 
-        RestTemplate restTemplate = new RestTemplate();
-        String api = "http://127.0.0.1:8081/licenses/" + id;
-        Boolean valid = restTemplate.getForObject(api, Boolean.class);
-        if (Boolean.TRUE.equals(valid)) {
-            user.setIsValid(true);
-        }else {
-            user.setIsValid(false);
-        }
+        permitAPI(user);
 
         userRepository.save(user);
 
-
         return Optional.of(user);
     }
+
 
 
     /**
@@ -115,6 +102,22 @@ public class UserController {
     public void deleteClient(@PathVariable int id) {
         userRepository.deleteById(id);
 
+    }
+
+    public void permitAPI(User user) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        String permitNumber = user.getPermitNumber();
+
+        String api = "http://127.0.0.1:8081/licenses/" + permitNumber;
+        Boolean valid = restTemplate.getForObject(api, Boolean.class);
+
+        if (Boolean.TRUE.equals(valid)) {
+            user.setIsValid(true);
+            userRepository.save(user);
+        }else {
+            user.setIsValid(false);
+        }
     }
 
 }

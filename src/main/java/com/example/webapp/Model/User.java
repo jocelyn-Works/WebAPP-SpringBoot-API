@@ -3,6 +3,7 @@ package com.example.webapp.Model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,10 +24,12 @@ public class User {
 
     @NotNull
     @NotBlank(message = "First Name is Required")
+    @Size(min=2, max=30)
     private String firstName;
 
     @NotNull
     @NotBlank(message = "Last Name is Required")
+    @Size(min=2, max=30)
     private String lastName;
 
     @NotNull
