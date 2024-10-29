@@ -3,6 +3,8 @@ package com.example.webapp.controller;
 
 import com.example.webapp.Model.User;
 import com.example.webapp.Repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,59 +23,55 @@ public class UserController {
 
 
     /**
-     * Retourne tous les clients
+     * Retourne tous les utilisateurs
      *
      * @return
      */
-    @GetMapping(value = "/clients")
+    @GetMapping(value = "/user")
     public List<User> clients() {
         return (List<User>) userRepository.findAll();
     }
 
 
     /**
-     * Retourne un client par son ID
+     * Retourne un utilisateur par son ID
      *
      * @param id
      * @return
      */
-    @GetMapping(value = "/clients/{id}")
+    @GetMapping(value = "/user/{id}")
     public Optional<User> client(@PathVariable int id) {
         return userRepository.findById(id);
     }
 
 
     /**
-     * Ajouter un client
+     * Ajouter un utilisateur
      *
      * @param user
      * @return
      */
-    @PostMapping(value = "/clients")
-    public Optional<User> addClient(@RequestBody User user) {
+    @PostMapping(value = "/user")
+    public ResponseEntity<String> addClient(@RequestBody User user) {
 
         User client = new User();
-        client.setId(user.getId());
-        client.setFirstName(user.getFirstName());
-        client.setLastName(user.getLastName());
-        client.setBirthDate(user.getBirthDate());
-        client.setPermitNumber(user.getPermitNumber());
 
-        permitAPI(client);
+        permitAPI(user);
 
-        return userRepository.findById(client.getId());
+
+        return new ResponseEntity<String>("User Created", HttpStatus.CREATED);
     }
 
 
     /**
-     * Modifier un client par son ID
+     * Modifier un utilisateur par son ID
      *
      * @param user
      * @param id
      * @return
      */
-    @PutMapping(value = "/clients/{id}")
-    public Optional<User> updateClient(@RequestBody User user, @PathVariable int id) {
+    @PutMapping(value = "/user/{id}")
+    public ResponseEntity<String> updateClient(@RequestBody User user, @PathVariable int id) {
 
         userRepository.findById(id);
 
@@ -88,17 +86,17 @@ public class UserController {
 
         userRepository.save(user);
 
-        return Optional.of(user);
+        return  new ResponseEntity<String>("User Updated", HttpStatus.CREATED);
     }
 
 
 
     /**
-     * Suprime un client par son ID
+     * Suprime un utilisateur par son ID
      *
      * @param id
      */
-    @DeleteMapping(value = "/clients/{id}")
+    @DeleteMapping(value = "/user/{id}")
     public void deleteClient(@PathVariable int id) {
         userRepository.deleteById(id);
 
