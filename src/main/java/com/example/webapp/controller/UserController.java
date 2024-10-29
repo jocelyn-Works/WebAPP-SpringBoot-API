@@ -54,10 +54,7 @@ public class UserController {
     @PostMapping(value = "/user")
     public ResponseEntity<String> addClient(@RequestBody User user) {
 
-        User client = new User();
-
         permitAPI(user);
-
 
         return new ResponseEntity<String>("User Created", HttpStatus.CREATED);
     }
@@ -84,8 +81,6 @@ public class UserController {
 
         permitAPI(user);
 
-        userRepository.save(user);
-
         return  new ResponseEntity<String>("User Updated", HttpStatus.CREATED);
     }
 
@@ -97,8 +92,9 @@ public class UserController {
      * @param id
      */
     @DeleteMapping(value = "/user/{id}")
-    public void deleteClient(@PathVariable int id) {
+    public ResponseEntity<String> deleteClient(@PathVariable int id) {
         userRepository.deleteById(id);
+        return new ResponseEntity<String>("User Deleted", HttpStatus.CREATED);
 
     }
 

@@ -20,27 +20,32 @@ public class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @NotNull
     @NotBlank(message = "First Name is Required")
     @Size(min=2, max=30)
+    @Column(name="first_name", nullable = false)
     private String firstName;
 
     @NotNull
     @NotBlank(message = "Last Name is Required")
     @Size(min=2, max=30)
+    @Column(name="last_name", nullable = false)
     private String lastName;
 
     @NotNull
     @NotBlank(message = "Birth Date is Required")
+    @Column(name="birth_date", nullable = false)
     private Date birthDate;
 
     @NotNull
     @NotBlank(message = "Permit Number is Required")
+    @Column(name="permit_number", nullable = false)
     private String permitNumber;
 
     @NotNull
+    @Column(name="is_valid", nullable = false)
     private Boolean isValid;
 
 
